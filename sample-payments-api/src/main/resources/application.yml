@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: sample-payments-api
+  datasource:
+    url: jdbc:h2:mem:payments;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+  sql:
+    init:
+      mode: always
+
+idempotency:
+  scope:
+    # In production your API gateway sets this after authenticating the caller.
+    header: X-Api-Client
+  ttl: 24h
+  lock-timeout: 30s
+  jdbc:
+    initialize-schema: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+
+---
+spring:
+  config:
+    activate:
+      on-profile: postgres
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/payments}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}

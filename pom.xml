@@ -27,6 +27,7 @@
 
   <modules>
     <module>idempotency-spring-boot-starter</module>
+    <module>sample-payments-api</module>
   </modules>
 
   <properties>
